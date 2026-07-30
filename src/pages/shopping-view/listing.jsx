@@ -35,8 +35,6 @@ function createSearchParamsHelper(filterParams) {
     }
   }
 
-  console.log(queryParams, "queryParams");
-
   return queryParams.join("&");
 }
 
@@ -53,10 +51,8 @@ function ShoppingListing() {
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
   const { toast } = useToast();
   const [page, setPage] = useState(1);
-  console.log("page: ", page);
   const [hasMore, setHasMore] = useState(true);
   const [allProducts, setAllProducts] = useState([]);
-  console.log("allProducts: ", allProducts);
 
   const categorySearchParam = searchParams.get("category");
 
@@ -87,12 +83,10 @@ function ShoppingListing() {
   }
 
   function handleGetProductDetails(getCurrentProductId) {
-    console.log(getCurrentProductId);
     dispatch(fetchProductDetails(getCurrentProductId));
   }
 
   function handleAddtoCart(getCurrentProductId, getTotalStock) {
-    console.log(cartItems);
     let getCartItems = cartItems.items || [];
 
     if (getCartItems.length) {
@@ -181,8 +175,6 @@ function ShoppingListing() {
   const fetchMoreProducts = () => {
     setPage((prev) => prev + 1);
   };
-
-  console.log("productList: ", productList);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">

@@ -1,9 +1,11 @@
+import { useEffect, useRef } from "react";
 import { FileIcon, UploadCloudIcon, XIcon } from "lucide-react";
+
+import { API } from "@/api/axiosInstance";
+
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { useEffect, useRef } from "react";
 import { Button } from "../ui/button";
-import axios from "axios";
 import { Skeleton } from "../ui/skeleton";
 
 function ProductImageUpload({
@@ -45,10 +47,7 @@ function ProductImageUpload({
     setImageLoadingState(true);
     const data = new FormData();
     data.append("my_file", imageFile);
-    const response = await axios.post(
-      "http://localhost:5000/api/admin/products/upload-image",
-      data,
-    );
+    const response = await API.post("/admin/products/upload-image", data);
 
     if (response?.data?.success) {
       setUploadedImageUrl(response.data.result.url);
