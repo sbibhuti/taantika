@@ -175,7 +175,7 @@ function ShoppingHome() {
     <div className="flex flex-col min-h-screen">
       <div className="w-full">
         <div className="flex flex-col lg:flex-row">
-          <div className="relative w-3/5 h-150 overflow-hidden">
+          <div className="relative lg:w-3/5 h-150 overflow-hidden">
             {featureImageList && featureImageList.length > 0
               ? featureImageList.map((slide, index) => (
                   <img
@@ -188,7 +188,7 @@ function ShoppingHome() {
                 ))
               : null}
           </div>
-          <div className="p-4 w-2/5 my-auto">
+          <div className="p-4 lg:w-2/5 my-auto">
             <p className="text-3xl mb-8">
               We poured our hearts into selecting every single piece.
             </p>
@@ -243,7 +243,7 @@ function ShoppingHome() {
           <h2 className="text-3xl font-bold text-center mb-8">
             Feature Products
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
             {productList && productList.length > 0
               ? getTenRandomItems(productList).map((productItem) => (
                   <ShoppingProductTile

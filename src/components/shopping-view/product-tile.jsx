@@ -22,7 +22,7 @@ function ShoppingProductTile({
           <img
             src={product?.image ? product?.image : noImage}
             alt={product?.title}
-            className="w-full h-75 object-cover"
+            className="w-full h-50 md:h-75 object-cover"
           />
           {product?.totalStock === 0 ? (
             <Badge className="absolute top-2 left-2 bg-secondary text-secondary-foreground hover:bg-secondary/60">
@@ -64,7 +64,7 @@ function ShoppingProductTile({
               {product?.price}
             </span>
             {saleCondition && product?.discount > 0 && (
-              <span className="text-sm">{`(${product?.discount}% Off)`}</span>
+              <span className="hidden md:block text-sm">{`(${product?.discount}% Off)`}</span>
             )}
           </div>
         </CardContent>
