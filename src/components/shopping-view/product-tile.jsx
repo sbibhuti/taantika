@@ -24,7 +24,7 @@ function ShoppingProductTile({
             alt={product?.title}
             className="w-full h-75 object-cover"
           />
-          {product?.totalStock === 39 ? (
+          {product?.totalStock === 0 ? (
             <Badge className="absolute top-2 left-2 bg-secondary text-secondary-foreground hover:bg-secondary/60">
               Out Of Stock
             </Badge>

@@ -33,7 +33,7 @@ function App() {
     dispatch(checkAuth());
   }, [dispatch]);
 
-  if (isLoading) return <Skeleton className="w-[800] bg-black h-150" />;
+  if (isLoading) return <Skeleton className="w-full h-150" />;
 
   return (
     <div className="flex flex-col overflow-hidden bg-background">

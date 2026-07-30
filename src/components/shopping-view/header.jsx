@@ -6,7 +6,15 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { HousePlug, LogOut, Menu, ShoppingCart, UserCog } from "lucide-react";
+import {
+  Heart,
+  HousePlug,
+  LogOut,
+  Menu,
+  Package,
+  ShoppingCart,
+  UserCog,
+} from "lucide-react";
 
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Button } from "../ui/button";
@@ -117,12 +125,25 @@ function HeaderRightContent() {
             </AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
-        <DropdownMenuContent side="left" className="w-56 bg-background">
+        <DropdownMenuContent
+          side="bottom"
+          align="end"
+          sideOffset={6}
+          className="w-56 bg-background"
+        >
           <DropdownMenuLabel>Logged in as {user?.userName}</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => navigate("/shop/account")}>
             <UserCog className="mr-2 h-4 w-4" />
             Account
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => navigate("/shop/account")}>
+            <Package className="mr-2 h-4 w-4" />
+            Order
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => navigate("/shop/wishlist")}>
+            <Heart className="mr-2 h-4 w-4" />
+            Wishlist
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={handleLogout}>
