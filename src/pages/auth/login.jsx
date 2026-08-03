@@ -1,3 +1,4 @@
+import { setAccessToken } from "@/api/axiosInstance";
 import CommonForm from "@/components/common/form";
 import { useToast } from "@/components/ui/use-toast";
 import { loginFormControls } from "@/config";
@@ -24,6 +25,7 @@ function AuthLogin() {
         toast({
           title: data?.payload?.message,
         });
+        setAccessToken(data?.payload?.accessToken);
       } else {
         toast({
           title: data?.payload?.message,
