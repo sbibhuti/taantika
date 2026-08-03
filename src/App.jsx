@@ -30,6 +30,28 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+
+    const applyTheme = (isDark) => {
+      document.documentElement.classList.toggle("dark", isDark);
+    };
+
+    // Initial theme
+    applyTheme(media.matches);
+
+    // // Listen for system theme changes
+    const handleChange = (e) => {
+      applyTheme(e.matches);
+    };
+
+    media.addEventListener("change", handleChange);
+
+    return () => {
+      media.removeEventListener("change", handleChange);
+    };
+  }, []);
+
+  useEffect(() => {
     dispatch(checkAuth());
   }, [dispatch]);
 
