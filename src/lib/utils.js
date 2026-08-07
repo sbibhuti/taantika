@@ -26,3 +26,13 @@ export function getTenRandomItems(arr) {
 
   return result;
 }
+
+export function timeFormatter(dateString) {
+  const date = new Date(dateString * 1000); // convert seconds to milliseconds
+  const formatted = date.toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+  return formatted;
+}

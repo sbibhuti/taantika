@@ -146,9 +146,9 @@ function HeaderRightContent() {
             <UserCog className="mr-2 h-4 w-4" />
             Account
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => navigate("/shop/account")}>
+          <DropdownMenuItem onClick={() => navigate("/shop/order-history")}>
             <Package className="mr-2 h-4 w-4" />
-            Order
+            Orders
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => navigate("/shop/wishlist")}>
             <Heart className="mr-2 h-4 w-4" />
@@ -210,10 +210,10 @@ function ShoppingHeader() {
               <SheetClose asChild>
                 <Button
                   variant="link"
-                  onClick={() => navigate("/shop/account")}
+                  onClick={() => navigate("/shop/order-history")}
                 >
                   <Package className="mr-2 h-4 w-4" />
-                  Order
+                  Orders
                 </Button>
               </SheetClose>
               <SheetClose asChild>

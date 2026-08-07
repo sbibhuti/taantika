@@ -53,10 +53,6 @@ export const checkAuth = createAsyncThunk(
   async () => {
     const response = await API.get("/auth/me", {
       withCredentials: true,
-      // headers: {
-      //   "Cache-Control":
-      //     "no-store, no-cache, must-revalidate, proxy-revalidate",
-      // },
     });
 
     return response.data;

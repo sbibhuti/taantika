@@ -1,12 +1,12 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import accImg from "../../assets/account.jpg";
 import Address from "@/components/shopping-view/address";
-import ShoppingOrders from "@/components/shopping-view/orders";
+import PersonalInfoForm from "@/components/shopping-view/PersonalInformation";
 
 function ShoppingAccount() {
   return (
     <div className="flex flex-col">
-      <div className="relative h-[300px] w-full overflow-hidden">
+      <div className="relative h-75 w-full overflow-hidden">
         <img
           src={accImg}
           className="h-full w-full object-cover object-center"
@@ -16,11 +16,11 @@ function ShoppingAccount() {
         <div className="flex flex-col rounded-lg border bg-background p-6 shadow-sm">
           <Tabs defaultValue="orders">
             <TabsList>
-              <TabsTrigger value="orders">Orders</TabsTrigger>
-              <TabsTrigger value="address">Address</TabsTrigger>
+              <TabsTrigger value="orders">Personal Information</TabsTrigger>
+              <TabsTrigger value="address">Address Details</TabsTrigger>
             </TabsList>
             <TabsContent value="orders">
-              <ShoppingOrders />
+              <PersonalInfoForm />
             </TabsContent>
             <TabsContent value="address">
               <Address />

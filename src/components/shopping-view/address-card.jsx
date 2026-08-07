@@ -16,10 +16,10 @@ function AddressCard({
           ? () => setCurrentSelectedAddress(addressInfo)
           : null
       }
-      className={`cursor-pointer border-red-700 ${
+      className={`cursor-pointer bg-muted border-border ${
         selectedId?._id === addressInfo?._id
           ? "border-red-900 border-[4px]"
-          : "border-black"
+          : "border-border"
       }`}
     >
       <CardContent className="grid p-4 gap-4">

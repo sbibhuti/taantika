@@ -3,12 +3,13 @@ import { Badge } from "../ui/badge";
 import { DialogContent } from "../ui/dialog";
 import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
+import { IndianRupee } from "lucide-react";
 
 function ShoppingOrderDetailsView({ orderDetails }) {
   const { user } = useSelector((state) => state.auth);
 
   return (
-    <DialogContent className="sm:max-w-[600px]">
+    <DialogContent className="sm:max-w-150">
       <div className="grid gap-6">
         <div className="grid gap-2">
           <div className="flex mt-6 items-center justify-between">
@@ -21,7 +22,10 @@ function ShoppingOrderDetailsView({ orderDetails }) {
           </div>
           <div className="flex mt-2 items-center justify-between">
             <p className="font-medium">Order Price</p>
-            <Label>${orderDetails?.totalAmount}</Label>
+            <Label className="flex items-center gap-1">
+              <IndianRupee size={14} strokeWidth={3} />
+              {orderDetails?.totalAmount}
+            </Label>
           </div>
           <div className="flex mt-2 items-center justify-between">
             <p className="font-medium">Payment method</p>
@@ -39,8 +43,8 @@ function ShoppingOrderDetailsView({ orderDetails }) {
                   orderDetails?.orderStatus === "confirmed"
                     ? "bg-green-500"
                     : orderDetails?.orderStatus === "rejected"
-                    ? "bg-red-600"
-                    : "bg-black"
+                      ? "bg-red-600"
+                      : "bg-black"
                 }`}
               >
                 {orderDetails?.orderStatus}
@@ -58,7 +62,11 @@ function ShoppingOrderDetailsView({ orderDetails }) {
                     <li className="flex items-center justify-between">
                       <span>Title: {item.title}</span>
                       <span>Quantity: {item.quantity}</span>
-                      <span>Price: ${item.price}</span>
+                      <span className="flex items-center gap-1">
+                        Price:
+                        <IndianRupee size={14} strokeWidth={3} />
+                        {item.price}
+                      </span>
                     </li>
                   ))
                 : null}

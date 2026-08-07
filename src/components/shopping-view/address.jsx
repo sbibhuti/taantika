@@ -11,6 +11,8 @@ import {
 } from "@/store/shop/address-slice";
 import AddressCard from "./address-card";
 import { useToast } from "../ui/use-toast";
+import { Button } from "../ui/button";
+import AddAddressDialog from "./add-edit-address";
 
 const initialAddressFormData = {
   address: "",
@@ -21,12 +23,13 @@ const initialAddressFormData = {
 };
 
 function Address({ setCurrentSelectedAddress, selectedId }) {
-  const [formData, setFormData] = useState(initialAddressFormData);
-  const [currentEditedId, setCurrentEditedId] = useState(null);
   const dispatch = useDispatch();
+  const { toast } = useToast();
   const { user } = useSelector((state) => state.auth);
   const { addressList } = useSelector((state) => state.shopAddress);
-  const { toast } = useToast();
+  const [formData, setFormData] = useState(initialAddressFormData);
+  const [currentEditedId, setCurrentEditedId] = useState(null);
+  const [openAddAddressDialog, setOpenAddAddressDialog] = useState(false);
 
   function handleManageAddress(event) {
     event.preventDefault();
@@ -72,6 +75,7 @@ function Address({ setCurrentSelectedAddress, selectedId }) {
             });
           }
         });
+    setOpenAddAddressDialog(false);
   }
 
   function handleDeleteAddress(getCurrentAddress) {
@@ -88,6 +92,7 @@ function Address({ setCurrentSelectedAddress, selectedId }) {
   }
 
   function handleEditAddress(getCuurentAddress) {
+    setOpenAddAddressDialog(true);
     setCurrentEditedId(getCuurentAddress?._id);
     setFormData({
       ...formData,
@@ -111,34 +116,38 @@ function Address({ setCurrentSelectedAddress, selectedId }) {
 
   return (
     <Card>
-      <div className="mb-5 p-3 grid grid-cols-1 sm:grid-cols-2  gap-2">
-        {addressList && addressList.length > 0
-          ? addressList.map((singleAddressItem) => (
-              <AddressCard
-                selectedId={selectedId}
-                handleDeleteAddress={handleDeleteAddress}
-                addressInfo={singleAddressItem}
-                handleEditAddress={handleEditAddress}
-                setCurrentSelectedAddress={setCurrentSelectedAddress}
-              />
-            ))
-          : null}
-      </div>
-      <CardHeader>
-        <CardTitle>
-          {currentEditedId !== null ? "Edit Address" : "Add New Address"}
-        </CardTitle>
-      </CardHeader>
       <CardContent className="space-y-3">
-        <CommonForm
-          formControls={addressFormControls}
+        <div className="mb-5 py-3 md:p-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
+          {addressList && addressList.length > 0
+            ? addressList.map((singleAddressItem) => (
+                <AddressCard
+                  selectedId={selectedId}
+                  handleDeleteAddress={handleDeleteAddress}
+                  addressInfo={singleAddressItem}
+                  handleEditAddress={handleEditAddress}
+                  setCurrentSelectedAddress={setCurrentSelectedAddress}
+                />
+              ))
+            : null}
+        </div>
+        <div className="md:px-3">
+          <Button onClick={() => setOpenAddAddressDialog(true)}>
+            Add Address
+          </Button>
+        </div>
+      </CardContent>
+      {openAddAddressDialog && (
+        <AddAddressDialog
+          open={openAddAddressDialog}
+          setOpen={setOpenAddAddressDialog}
+          addressFormControls={addressFormControls}
           formData={formData}
           setFormData={setFormData}
-          buttonText={currentEditedId !== null ? "Edit" : "Add"}
-          onSubmit={handleManageAddress}
-          isBtnDisabled={!isFormValid()}
+          currentEditedId={currentEditedId}
+          handleManageAddress={handleManageAddress}
+          isFormValid={isFormValid}
         />
-      </CardContent>
+      )}
     </Card>
   );
 }
