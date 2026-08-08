@@ -132,7 +132,7 @@ function Address({ setCurrentSelectedAddress, selectedId }) {
         </div>
         <div className="md:px-3">
           <Button onClick={() => setOpenAddAddressDialog(true)}>
-            Add Address
+            Add New Address
           </Button>
         </div>
       </CardContent>

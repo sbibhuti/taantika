@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { SheetContent, SheetHeader, SheetTitle } from "../ui/sheet";
 import UserCartItemsContent from "./cart-items-content";
+import { IndianRupee } from "lucide-react";
 
 function UserCartWrapper({ cartItems, setOpenCartSheet }) {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ function UserCartWrapper({ cartItems, setOpenCartSheet }) {
               ? currentItem?.salePrice
               : currentItem?.price) *
               currentItem?.quantity,
-          0
+          0,
         )
       : 0;
 
@@ -32,7 +33,10 @@ function UserCartWrapper({ cartItems, setOpenCartSheet }) {
       <div className="mt-8 space-y-4">
         <div className="flex justify-between">
           <span className="font-bold">Total</span>
-          <span className="font-bold">${totalCartAmount}</span>
+          <span className="font-bold flex items-center gap-0.5">
+            <IndianRupee strokeWidth={3} size={14} />
+            {totalCartAmount}
+          </span>
         </div>
       </div>
       <Button

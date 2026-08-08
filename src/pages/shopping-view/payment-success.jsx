@@ -4,59 +4,54 @@ import { Button } from "@/components/ui/button";
 // import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLocation, useNavigate } from "react-router-dom";
 import { API } from "@/api/axiosInstance";
-import { timeFormatter } from "@/lib/utils";
+import { divideAndFormat, timeFormatter } from "@/lib/utils";
+import { useDispatch, useSelector } from "react-redux";
+import { getPaymentDetails } from "@/store/shop/order-slice";
 
-// function PaymentSuccessPage() {
-//   const navigate = useNavigate();
-
-//   return (
-//     <Card className="p-10">
-//       <CardHeader className="p-0">
-//         <CardTitle className="text-4xl">Payment is successfull!</CardTitle>
-//       </CardHeader>
-//       <Button className="mt-5" onClick={() => navigate("/shop/account")}>
-//         View Orders
-//       </Button>
-//     </Card>
-//   );
-// }
-
-// export default PaymentSuccessPage;
+const successPaymentModel = (paymentDetails) => {
+  return [
+    { title: "Amount Paid", value: divideAndFormat(paymentDetails?.amount) },
+    {
+      title: "Order ID",
+      value: paymentDetails?.order_id?.substring(
+        paymentDetails?.order_id?.indexOf("_") + 1,
+      ),
+    },
+    {
+      title: "Date & Time",
+      value: timeFormatter(paymentDetails?.created_at),
+    },
+    {
+      title: "Payment Method",
+      value: `${paymentDetails?.card?.network} ending in ${paymentDetails?.card?.last4}`,
+    },
+  ];
+};
 
 export default function PaymentSuccessPage() {
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
   const paymentId = location.state?.paymentId;
+  const { paymentDetails } = useSelector((state) => state.shopOrder);
+  console.log("paymentDetails: ", paymentDetails);
 
   const [payment, setPayment] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    if (paymentDetails) setPayment(successPaymentModel(paymentDetails));
+  }, [paymentDetails]);
+
+  useEffect(() => {
     const fetchDetails = async () => {
       try {
-        const { data } = await API.get(`/shop/order/payment/${paymentId}`);
-
+        const data = await dispatch(getPaymentDetails(paymentId)).unwrap();
         const { data: paymentData } = data;
 
         if (data.success) {
-          setPayment([
-            { title: "Amount Paid", value: paymentData?.amount },
-            {
-              title: "Order ID",
-              value: paymentData?.order_id?.substring(
-                paymentData?.order_id?.indexOf("_") + 1,
-              ),
-            },
-            {
-              title: "Date & Time",
-              value: timeFormatter(paymentData?.created_at),
-            },
-            {
-              title: "Payment Method",
-              value: `${paymentData?.card?.network} ending in ${paymentData?.card?.last4}`,
-            },
-          ]);
+          setPayment(successPaymentModel(paymentData));
         } else {
           setError(data.message);
         }
@@ -69,7 +64,7 @@ export default function PaymentSuccessPage() {
 
     if (paymentId) fetchDetails();
     else setLoading(false);
-  }, [paymentId]);
+  }, [paymentId, dispatch]);
 
   if (loading)
     return (
@@ -123,7 +118,7 @@ export default function PaymentSuccessPage() {
             </p>
 
             {/* Transaction Details Box */}
-            <div className="bg-muted rounded-xl p-5 mb-8 text-left border border-border">
+            <div className="bg-muted rounded-xl p-5 w-full mb-8 text-left border border-border">
               <h3 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-3">
                 Payment Details
               </h3>

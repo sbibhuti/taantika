@@ -42,67 +42,99 @@
 }
 
 :root {
-  --background: #f4f1ec;
-  --foreground: #1f2937;
+  /* Base */
+  --background: #fafafa;
+  --foreground: #171717;
 
-  --card: #fcfbf8;
-  --card-foreground: #1f2937;
+  /* Surfaces */
+  --card: #ffffff;
+  --card-foreground: #171717;
 
-  --popover: #fcfbf8;
-  --popover-foreground: #1f2937;
+  --popover: #ffffff;
+  --popover-foreground: #171717;
 
-  --primary: #c96c4b;
+  /* Primary */
+  --primary: #f97316;
   --primary-foreground: #ffffff;
 
-  --secondary: #e9e3db;
-  --secondary-foreground: #4b5563;
+  /* Secondary */
+  --secondary: #f5f5f5;
+  --secondary-foreground: #262626;
 
-  --muted: #e7e2db;
-  --muted-foreground: #6b7280;
+  /* Muted */
+  --muted: #f5f5f5;
+  --muted-foreground: #737373;
 
+  /* Accent / Hover */
   --accent: #2e8b87;
   --accent-foreground: #1f2937;
 
-  --destructive: #d14343;
+  /* Semantic */
+  --destructive: #ef4444;
   --destructive-foreground: #ffffff;
 
-  --border: #d8d2ca;
-  --input: #d8d2ca;
-  --ring: #c96c4b;
+  /* Borders / Inputs */
+  --border: #d4d4d4;
+  --input: #d4d4d4;
+  --ring: #f97316;
+
+  /* Radius */
   --radius: 0.5rem;
-  --chart-1: 12 76% 61%;
-  --chart-2: 173 58% 39%;
-  --chart-3: 197 37% 24%;
-  --chart-4: 43 74% 66%;
-  --chart-5: 27 87% 67%;
+
+  /* Charts */
+  --chart-1: 24 94% 53%;
+  --chart-2: 142 71% 45%;
+  --chart-3: 48 96% 47%;
+  --chart-4: 0 84% 60%;
+  --chart-5: 20 90% 60%;
 }
 
 .dark {
-  --background: #171412;
-  --foreground: #f5f1eb;
-  --card: #211d1a;
-  --card-foreground: #f5f1eb;
-  --popover: #211d1a;
-  --popover-foreground: #f5f1eb;
-  --primary: #d98663;
-  --primary-foreground: #1a120e;
-  --secondary: #2d2824;
-  --secondary-foreground: #ddd5cc;
-  --muted: #2a2521;
-  --muted-foreground: #a8a29b;
+  /* Base */
+  --background: #111111;
+  --foreground: #fafafa;
+
+  /* Surfaces */
+  --card: #262626;
+  --card-foreground: #fafafa;
+
+  --popover: #1b1b1b;
+  --popover-foreground: #fafafa;
+
+  /* Primary */
+  --primary: #f97316;
+  --primary-foreground: #111111;
+
+  /* Secondary */
+  --secondary: #1b1b1b;
+  --secondary-foreground: #fafafa;
+
+  /* Muted */
+  --muted: #262626;
+  --muted-foreground: #a3a3a3;
+
+  /* Accent / Hover */
   --accent: #49a7a2;
   --accent-foreground: #071413;
-  --destructive: #e05a5a;
-  --destructive-foreground: #ffffff;
-  --border: #3a342f;
-  --input: #3a342f;
-  --ring: #d98663;
+
+  /* Semantic */
+  --destructive: #ef4444;
+  --destructive-foreground: #fafafa;
+
+  /* Borders / Inputs */
+  --border: #404040;
+  --input: #404040;
+  --ring: #f97316;
+
+  /* Radius */
   --radius: 0.5rem;
-  --chart-1: 220 70% 50%;
-  --chart-2: 160 60% 45%;
-  --chart-3: 30 80% 55%;
-  --chart-4: 280 65% 60%;
-  --chart-5: 340 75% 55%;
+
+  /* Charts */
+  --chart-1: 24 94% 53%;
+  --chart-2: 142 71% 45%;
+  --chart-3: 48 96% 47%;
+  --chart-4: 0 84% 60%;
+  --chart-5: 20 90% 60%;
 }
 
 @keyframes accordion-down {

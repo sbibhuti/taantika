@@ -2,30 +2,17 @@ import { API } from "@/api/axiosInstance";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  approvalURL: null,
   isLoading: false,
   orderId: null,
   orderList: [],
   orderDetails: null,
+  paymentDetails: null,
 };
 
 export const createNewOrder = createAsyncThunk(
   "/order/createNewOrder",
   async (orderData) => {
     const response = await API.post("/shop/order/create", orderData);
-
-    return response.data;
-  },
-);
-
-export const capturePayment = createAsyncThunk(
-  "/order/capturePayment",
-  async ({ paymentId, payerId, orderId }) => {
-    const response = await API.post("/shop/order/capture", {
-      paymentId,
-      payerId,
-      orderId,
-    });
 
     return response.data;
   },
@@ -49,6 +36,15 @@ export const getOrderDetails = createAsyncThunk(
   },
 );
 
+export const getPaymentDetails = createAsyncThunk(
+  "/order/getPaymentDetails",
+  async (paymentId) => {
+    const response = await API.get(`/shop/order/payment/${paymentId}`);
+
+    return response.data;
+  },
+);
+
 const shoppingOrderSlice = createSlice({
   name: "shoppingOrderSlice",
   initialState,
@@ -64,16 +60,10 @@ const shoppingOrderSlice = createSlice({
       })
       .addCase(createNewOrder.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.approvalURL = action.payload.approvalURL;
         state.orderId = action.payload.orderId;
-        sessionStorage.setItem(
-          "currentOrderId",
-          JSON.stringify(action.payload.orderId),
-        );
       })
       .addCase(createNewOrder.rejected, (state) => {
         state.isLoading = false;
-        state.approvalURL = null;
         state.orderId = null;
       })
       .addCase(getAllOrdersByUserId.pending, (state) => {
@@ -97,6 +87,17 @@ const shoppingOrderSlice = createSlice({
       .addCase(getOrderDetails.rejected, (state) => {
         state.isLoading = false;
         state.orderDetails = null;
+      })
+      .addCase(getPaymentDetails.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getPaymentDetails.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.paymentDetails = action.payload.data;
+      })
+      .addCase(getPaymentDetails.rejected, (state) => {
+        state.isLoading = false;
+        state.paymentDetails = null;
       });
   },
 });

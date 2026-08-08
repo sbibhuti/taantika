@@ -18,7 +18,7 @@ function AddressCard({
       }
       className={`cursor-pointer bg-muted border-border ${
         selectedId?._id === addressInfo?._id
-          ? "border-red-900 border-[4px]"
+          ? "border-accent border-4"
           : "border-border"
       }`}
     >
