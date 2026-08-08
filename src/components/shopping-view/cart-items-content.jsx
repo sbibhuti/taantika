@@ -1,4 +1,4 @@
-import { Minus, Plus, Trash } from "lucide-react";
+import { IndianRupee, Minus, Plus, Trash } from "lucide-react";
 import { Button } from "../ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteCartItem, updateCartQuantity } from "@/store/shop/cart-slice";
@@ -102,8 +102,8 @@ function UserCartItemsContent({ cartItem }) {
         </div>
       </div>
       <div className="flex flex-col items-end">
-        <p className="font-semibold">
-          $
+        <p className="font-semibold flex items-center gap-1">
+          <IndianRupee strokeWidth={2.5} size={14} />
           {(
             (cartItem?.salePrice > 0 ? cartItem?.salePrice : cartItem?.price) *
             cartItem?.quantity

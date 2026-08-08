@@ -77,7 +77,7 @@ function ShoppingProductTile({
         ) : (
           <Button
             onClick={() => handleAddtoCart(product?._id, product?.totalStock)}
-            className="w-full rounded-none bg-accent"
+            className="w-full rounded-none"
           >
             Add to cart
           </Button>

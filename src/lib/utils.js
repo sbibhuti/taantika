@@ -9,10 +9,8 @@ export function getTenRandomItems(arr) {
   const result = [];
   const len = arr.length;
 
-  // Guard clause if the list has fewer than 10 items
   if (len <= 10) return [...arr];
 
-  // Track indices we have already picked
   const seenIndices = new Set();
 
   while (result.length < 10) {
@@ -25,4 +23,21 @@ export function getTenRandomItems(arr) {
   }
 
   return result;
+}
+
+export function timeFormatter(dateString) {
+  const date = new Date(dateString * 1000);
+  const formatted = date.toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+  return formatted;
+}
+
+export function divideAndFormat(input) {
+  if (typeof input === "number" && !isNaN(input)) {
+    return (input / 100).toFixed(2);
+  }
+  return 0;
 }
