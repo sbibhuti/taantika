@@ -42,6 +42,13 @@ const shoppingProductSlice = createSlice({
     resetProductList: (state) => {
       state.productList = [];
     },
+    setProductWishlist: (state, action) => {
+      const { productId } = action.payload;
+      const product = state.productList.find((p) => p._id === productId);
+      if (product) {
+        product.wishlist = !product.wishlist;
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -56,21 +63,16 @@ const shoppingProductSlice = createSlice({
         state.isLoading = false;
         state.productList = [];
       })
-      .addCase(fetchProductDetails.pending, (state, action) => {
-        state.isLoading = true;
-      })
       .addCase(fetchProductDetails.fulfilled, (state, action) => {
-        state.isLoading = false;
         state.productDetails = action.payload.data;
       })
       .addCase(fetchProductDetails.rejected, (state, action) => {
-        state.isLoading = false;
         state.productDetails = null;
       });
   },
 });
 
-export const { setProductDetails, resetProductList } =
+export const { setProductDetails, resetProductList, setProductWishlist } =
   shoppingProductSlice.actions;
 
 export default shoppingProductSlice.reducer;

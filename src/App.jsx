@@ -22,6 +22,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import PaymentSuccessPage from "./pages/shopping-view/payment-success";
 import SearchProducts from "./pages/shopping-view/search";
 import ShoppingOrders from "./components/shopping-view/orders";
+import WishlistPage from "./pages/shopping-view/wishlist";
 
 function App() {
   const { user, isAuthenticated, isLoading } = useSelector(
@@ -108,6 +109,7 @@ function App() {
           <Route path="order-history" element={<ShoppingOrders />} />
           <Route path="payment-success" element={<PaymentSuccessPage />} />
           <Route path="search" element={<SearchProducts />} />
+          <Route path="wishlist" element={<WishlistPage />} />
         </Route>
         <Route path="/unauth-page" element={<UnauthPage />} />
         <Route path="*" element={<NotFound />} />

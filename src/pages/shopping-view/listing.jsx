@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
-import { ArrowUpDownIcon } from "lucide-react";
+import { ArrowUpDownIcon, Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -18,11 +18,14 @@ import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
 import {
   fetchAllFilteredProducts,
   fetchProductDetails,
+  setProductWishlist,
 } from "@/store/shop/products-slice";
 
 import ProductFilter from "@/components/shopping-view/filter";
 import ProductDetailsDialog from "@/components/shopping-view/product-details";
 import ShoppingProductTile from "@/components/shopping-view/product-tile";
+import { wishlistAdd, wishlistRemove } from "@/store/shop/wishlist-slice";
+import LoadingContent from "@/components/common/loading-content";
 
 function createSearchParamsHelper(filterParams) {
   const queryParams = [];
@@ -40,7 +43,7 @@ function createSearchParamsHelper(filterParams) {
 
 function ShoppingListing() {
   const dispatch = useDispatch();
-  const { productList, productDetails } = useSelector(
+  const { productList, productDetails, isLoading } = useSelector(
     (state) => state.shopProducts,
   );
   const { cartItems } = useSelector((state) => state.shopCart);
@@ -58,6 +61,72 @@ function ShoppingListing() {
 
   function handleSort(value) {
     setSort(value);
+  }
+
+  const toggleWishlist = (productId) => {
+    dispatch(setProductWishlist({ productId }));
+
+    setAllProducts((prevProducts) =>
+      prevProducts.map((product) =>
+        product._id === productId
+          ? { ...product, wishlist: !product.wishlist }
+          : product,
+      ),
+    );
+  };
+
+  function addItemToWishlist(evt, productId) {
+    evt.stopPropagation();
+
+    dispatch(wishlistAdd({ userId: user?.id, productId }))
+      .then((data) => {
+        if (data?.payload?.success) {
+          toggleWishlist(productId);
+
+          toast({
+            title: data?.payload?.message,
+          });
+        } else {
+          toast({
+            title: data?.payload?.message,
+            variant: "destructive",
+          });
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        toast({
+          title: "Failed to wishlist",
+          variant: "destructive",
+        });
+      });
+  }
+
+  function removeItemFromWishlist(evt, productId) {
+    evt.stopPropagation();
+
+    dispatch(wishlistRemove({ userId: user?.id, productId }))
+      .then((data) => {
+        if (data?.payload?.success) {
+          toggleWishlist(productId);
+
+          toast({
+            title: data?.payload?.message,
+          });
+        } else {
+          toast({
+            title: data?.payload?.message,
+            variant: "destructive",
+          });
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        toast({
+          title: "Failed to wishlist",
+          variant: "destructive",
+        });
+      });
   }
 
   function handleFilter(getSectionId, getCurrentOption) {
@@ -176,6 +245,11 @@ function ShoppingListing() {
     setPage((prev) => prev + 1);
   };
 
+  if (isLoading && page === 1)
+    return (
+      <LoadingContent fullPage loaderText="Please wait, loading products" />
+    );
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">
       <ProductFilter filters={filters} handleFilter={handleFilter} />
@@ -217,7 +291,10 @@ function ShoppingListing() {
           next={fetchMoreProducts}
           hasMore={hasMore}
           loader={
-            <div className="text-center py-4">Loading more products...</div>
+            <div className="flex w-full justify-center gap-2 items-center py-4">
+              <Loader2 className="animate-spin animation-duration-[1s] h-4 w-4 text-primary" />
+              Loading more products...
+            </div>
           }
           endMessage={
             <div className="text-center py-4 text-muted-foreground">
@@ -232,6 +309,8 @@ function ShoppingListing() {
                 handleGetProductDetails={handleGetProductDetails}
                 product={productItem}
                 handleAddtoCart={handleAddtoCart}
+                addItemToWishlist={addItemToWishlist}
+                removeItemFromWishlist={removeItemFromWishlist}
               />
             ))}
           </div>
