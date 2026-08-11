@@ -34,7 +34,6 @@ export default function PaymentSuccessPage() {
   const dispatch = useDispatch();
   const paymentId = location.state?.paymentId;
   const { paymentDetails } = useSelector((state) => state.shopOrder);
-  console.log("paymentDetails: ", paymentDetails);
 
   const [payment, setPayment] = useState([]);
   const [loading, setLoading] = useState(true);

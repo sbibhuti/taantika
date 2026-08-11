@@ -4,19 +4,28 @@ import { Card, CardContent, CardFooter } from "../ui/card";
 import { Button } from "../ui/button";
 import { brandOptionsMap, categoryOptionsMap } from "@/config";
 import { Badge } from "../ui/badge";
-import { IndianRupee } from "lucide-react";
+import { Heart, IndianRupee, Loader2, Trash2 } from "lucide-react";
+import { useLocation } from "react-router-dom";
 
 function ShoppingProductTile({
   product,
   handleGetProductDetails,
   handleAddtoCart,
-  key = null,
+  addItemToWishlist,
+  removeItemFromWishlist,
+  isRemoving,
 }) {
+  const location = useLocation();
   const saleCondition =
     product?.salePrice > 0 && product?.salePrice !== product?.price;
 
   return (
-    <Card key={key} className="w-full max-w-sm mx-auto rounded-none border-0">
+    <Card className="relative w-full max-w-sm mx-auto rounded-none border-0">
+      {isRemoving?.loader && isRemoving?.productId === product?._id && (
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-background/70 backdrop-blur-[2px]">
+          <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        </div>
+      )}
       <div onClick={() => handleGetProductDetails(product?._id)}>
         <div className="relative">
           <img
@@ -37,6 +46,31 @@ function ShoppingProductTile({
               Sale
             </Badge>
           ) : null}
+          {location?.pathname === "/shop/wishlist" ? (
+            <Button
+              variant="link"
+              onClick={(e) => removeItemFromWishlist(e, product?._id)}
+              className="absolute top-2 right-3 p-0 h-auto rounded-full hover:bg-transparent"
+              aria-label="Remove item"
+            >
+              <Trash2 className="w-5 h-5" />
+            </Button>
+          ) : (
+            <Button
+              variant="link"
+              onClick={(e) =>
+                product.wishlist
+                  ? removeItemFromWishlist(e, product?._id)
+                  : addItemToWishlist(e, product?._id)
+              }
+              className="absolute top-2 right-3 p-0 h-auto rounded-full hover:bg-transparent"
+              aria-label="Wishlist item"
+            >
+              <Heart
+                className={`w-5 h-5 ${product.wishlist && "fill-primary"}`}
+              />
+            </Button>
+          )}
         </div>
         <CardContent className="p-4">
           <h2 className="text-xl font-bold mb-2 truncate">{product?.title}</h2>

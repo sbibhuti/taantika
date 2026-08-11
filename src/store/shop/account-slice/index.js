@@ -3,6 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   user: null,
+  isLoading: false,
 };
 
 export const userDetails = createAsyncThunk(
@@ -44,11 +45,16 @@ const accountSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(userDetails.pending, (state) => {
+        state.isLoading = true;
+      })
       .addCase(userDetails.fulfilled, (state, action) => {
         state.user = action.payload.success ? action.payload.user : null;
+        state.isLoading = false;
       })
       .addCase(userDetails.rejected, (state) => {
         state.user = null;
+        state.isLoading = false;
       })
       .addCase(updateUser.fulfilled, (state, action) => {
         state.user = action.payload.success ? action.payload.user : null;

@@ -13,6 +13,7 @@ import AddressCard from "./address-card";
 import { useToast } from "../ui/use-toast";
 import { Button } from "../ui/button";
 import AddAddressDialog from "./add-edit-address";
+import LoadingContent from "../common/loading-content";
 
 const initialAddressFormData = {
   address: "",
@@ -26,7 +27,7 @@ function Address({ setCurrentSelectedAddress, selectedId }) {
   const dispatch = useDispatch();
   const { toast } = useToast();
   const { user } = useSelector((state) => state.auth);
-  const { addressList } = useSelector((state) => state.shopAddress);
+  const { addressList, isLoading } = useSelector((state) => state.shopAddress);
   const [formData, setFormData] = useState(initialAddressFormData);
   const [currentEditedId, setCurrentEditedId] = useState(null);
   const [openAddAddressDialog, setOpenAddAddressDialog] = useState(false);
@@ -117,24 +118,29 @@ function Address({ setCurrentSelectedAddress, selectedId }) {
   return (
     <Card>
       <CardContent className="space-y-3">
-        <div className="mb-5 py-3 md:p-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
-          {addressList && addressList.length > 0
-            ? addressList.map((singleAddressItem) => (
-                <AddressCard
-                  selectedId={selectedId}
-                  handleDeleteAddress={handleDeleteAddress}
-                  addressInfo={singleAddressItem}
-                  handleEditAddress={handleEditAddress}
-                  setCurrentSelectedAddress={setCurrentSelectedAddress}
-                />
-              ))
-            : null}
-        </div>
-        <div className="md:px-3">
-          <Button onClick={() => setOpenAddAddressDialog(true)}>
-            Add New Address
-          </Button>
-        </div>
+        {isLoading && <LoadingContent loaderText="Finding your saved places" />}
+        {!isLoading && (
+          <>
+            <div className="mb-5 py-3 md:p-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {addressList && addressList.length > 0
+                ? addressList.map((singleAddressItem) => (
+                    <AddressCard
+                      selectedId={selectedId}
+                      handleDeleteAddress={handleDeleteAddress}
+                      addressInfo={singleAddressItem}
+                      handleEditAddress={handleEditAddress}
+                      setCurrentSelectedAddress={setCurrentSelectedAddress}
+                    />
+                  ))
+                : null}
+            </div>
+            <div className="md:px-3">
+              <Button onClick={() => setOpenAddAddressDialog(true)}>
+                Add New Address
+              </Button>
+            </div>
+          </>
+        )}
       </CardContent>
       {openAddAddressDialog && (
         <AddAddressDialog
